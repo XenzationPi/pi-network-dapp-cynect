@@ -37,7 +37,7 @@ export const PiAuth = ({ onAuthenticated }: PiAuthProps) => {
     <Button 
       onClick={handleAuth} 
       disabled={isLoading}
-      className="w-full"
+      className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900"
     >
       {isLoading ? "Connecting..." : "Connect Pi Wallet"}
     </Button>

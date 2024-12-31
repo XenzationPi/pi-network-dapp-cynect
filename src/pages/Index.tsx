@@ -1,6 +1,7 @@
 import { PiAuth } from "@/components/PiAuth";
 import { Dashboard } from "@/components/Dashboard";
 import { useState, useEffect } from "react";
+import { piNetwork } from "@/lib/pi-sdk";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,9 +11,12 @@ const Index = () => {
     const script = document.createElement('script');
     script.src = 'https://sdk.minepi.com/pi-sdk.js';
     script.async = true;
-    script.onload = () => {
-      if (window.Pi) {
-        window.Pi.init({ version: "2.0", sandbox: true });
+    script.onload = async () => {
+      try {
+        await piNetwork.init();
+        console.log("Pi SDK initialized successfully");
+      } catch (error) {
+        console.error("Failed to initialize Pi SDK:", error);
       }
     };
     document.body.appendChild(script);
@@ -28,7 +32,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8 text-pi-dark">
+        <h1 className="text-4xl font-bold text-center mb-8 text-purple-800">
           Pi Network DApp
         </h1>
         
