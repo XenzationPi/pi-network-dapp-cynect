@@ -1,3 +1,19 @@
+// Define Pi SDK types
+declare global {
+  interface Window {
+    Pi: {
+      authenticate: (
+        scopes: string[],
+        onIncompletePaymentFound: (payment: any) => void
+      ) => Promise<{
+        uid: string;
+        username: string;
+        accessToken: string;
+      }>;
+    };
+  }
+}
+
 interface PiUser {
   uid: string;
   username: string;
@@ -19,7 +35,6 @@ class PiNetwork {
 
   async authenticate(): Promise<PiUser> {
     try {
-      // @ts-ignore - Pi SDK is loaded globally
       const scopes = ['username', 'payments', 'wallet_address'];
       const auth = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
       this.user = auth;
