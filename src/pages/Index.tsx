@@ -10,7 +10,16 @@ const Index = () => {
     const script = document.createElement('script');
     script.src = 'https://sdk.minepi.com/pi-sdk.js';
     script.async = true;
+    script.onload = () => {
+      // Initialize Pi SDK after loading
+      window.Pi?.init({ version: "2.0", sandbox: true });
+    };
     document.body.appendChild(script);
+
+    // Cleanup
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   return (
@@ -26,7 +35,7 @@ const Index = () => {
               <p className="text-gray-600 mb-4">
                 Connect your Pi wallet to get started
               </p>
-              <PiAuth />
+              <PiAuth onAuthenticated={() => setIsAuthenticated(true)} />
             </div>
           ) : (
             <Dashboard />

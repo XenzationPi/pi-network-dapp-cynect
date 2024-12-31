@@ -1,23 +1,31 @@
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { piNetwork } from "@/lib/pi-sdk";
+import { PiNetwork } from "@/lib/pi-sdk";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
-export const PiAuth = () => {
+interface PiAuthProps {
+  onAuthenticated?: () => void;
+}
+
+export const PiAuth = ({ onAuthenticated }: PiAuthProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const piNetwork = new PiNetwork();
 
   const handleAuth = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const user = await piNetwork.authenticate();
+      console.log("Authenticated user:", user);
       toast({
-        title: "Authentication Successful",
+        title: "Successfully connected",
         description: `Welcome ${user.username}!`,
       });
+      onAuthenticated?.();
     } catch (error) {
+      console.error("Authentication error:", error);
       toast({
-        title: "Authentication Failed",
+        title: "Authentication failed",
         description: "Please try again",
         variant: "destructive",
       });
@@ -27,12 +35,12 @@ export const PiAuth = () => {
   };
 
   return (
-    <Button
-      onClick={handleAuth}
+    <Button 
+      onClick={handleAuth} 
       disabled={isLoading}
-      className="bg-pi-purple hover:bg-pi-light text-white font-bold"
+      className="w-full"
     >
-      {isLoading ? "Connecting..." : "Connect with Pi"}
+      {isLoading ? "Connecting..." : "Connect Pi Wallet"}
     </Button>
   );
 };
