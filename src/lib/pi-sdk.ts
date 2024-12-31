@@ -1,17 +1,9 @@
 // Define Pi SDK types
-declare global {
-  interface Window {
-    Pi: {
-      authenticate: (
-        scopes: string[],
-        onIncompletePaymentFound: (payment: any) => void
-      ) => Promise<{
-        uid: string;
-        username: string;
-        accessToken: string;
-      }>;
-    };
-  }
+interface PiPayment {
+  // Add payment types as needed
+  id: string;
+  amount: number;
+  status: string;
 }
 
 interface PiUser {
@@ -20,44 +12,50 @@ interface PiUser {
   accessToken: string;
 }
 
-class PiNetwork {
-  private static instance: PiNetwork;
-  private user: PiUser | null = null;
+interface PiSDK {
+  init: (config: { version: string; sandbox: boolean }) => void;
+  authenticate: (
+    scopes: string[],
+    onIncompletePaymentFound: (payment: PiPayment) => void
+  ) => Promise<PiUser>;
+}
+
+declare global {
+  interface Window {
+    Pi?: PiSDK;
+  }
+}
+
+const handleIncompletePayment = (payment: PiPayment) => {
+  console.log("Incomplete payment found:", payment);
+  // Handle incomplete payment logic here
+};
+
+class PiNetworkClient {
+  private static instance: PiNetworkClient;
 
   private constructor() {}
 
-  static getInstance(): PiNetwork {
-    if (!PiNetwork.instance) {
-      PiNetwork.instance = new PiNetwork();
+  static getInstance(): PiNetworkClient {
+    if (!PiNetworkClient.instance) {
+      PiNetworkClient.instance = new PiNetworkClient();
     }
-    return PiNetwork.instance;
+    return PiNetworkClient.instance;
   }
 
   async authenticate(): Promise<PiUser> {
-    try {
-      const scopes = ['username', 'payments', 'wallet_address'];
-      const auth = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
-      this.user = auth;
-      return auth;
-    } catch (error) {
-      console.error('Pi Authentication Error:', error);
-      throw error;
+    if (!window.Pi) {
+      throw new Error("Pi Network SDK not loaded");
     }
+
+    const scopes = ["username", "payments", "wallet_address"];
+    return window.Pi.authenticate(scopes, handleIncompletePayment);
   }
 
   async getBalance(): Promise<number> {
-    try {
-      // Mock balance for now - will be replaced with actual Pi SDK call
-      return 100;
-    } catch (error) {
-      console.error('Get Balance Error:', error);
-      throw error;
-    }
+    // Mock balance for development
+    return 100;
   }
 }
 
-function onIncompletePaymentFound(payment: any) {
-  console.log('Incomplete payment found:', payment);
-}
-
-export const piNetwork = PiNetwork.getInstance();
+export const piNetwork = PiNetworkClient.getInstance();

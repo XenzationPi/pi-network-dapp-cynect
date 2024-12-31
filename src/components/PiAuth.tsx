@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { PiNetwork } from "@/lib/pi-sdk";
+import { piNetwork } from "@/lib/pi-sdk";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -10,7 +10,6 @@ interface PiAuthProps {
 export const PiAuth = ({ onAuthenticated }: PiAuthProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const piNetwork = new PiNetwork();
 
   const handleAuth = async () => {
     try {

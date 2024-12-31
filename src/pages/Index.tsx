@@ -6,19 +6,22 @@ const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if Pi SDK is loaded
+    // Load Pi SDK
     const script = document.createElement('script');
     script.src = 'https://sdk.minepi.com/pi-sdk.js';
     script.async = true;
     script.onload = () => {
-      // Initialize Pi SDK after loading
-      window.Pi?.init({ version: "2.0", sandbox: true });
+      if (window.Pi) {
+        window.Pi.init({ version: "2.0", sandbox: true });
+      }
     };
     document.body.appendChild(script);
 
-    // Cleanup
     return () => {
-      document.body.removeChild(script);
+      const existingScript = document.querySelector('script[src="https://sdk.minepi.com/pi-sdk.js"]');
+      if (existingScript) {
+        document.body.removeChild(existingScript);
+      }
     };
   }, []);
 
