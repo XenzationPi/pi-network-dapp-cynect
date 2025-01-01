@@ -39,9 +39,9 @@ const Index = () => {
           Your bridge to Pi Network's AI-powered content creation. Connect your wallet to start creating amazing content with Pi Network's upcoming AI technology.
         </p>
         
-        <div className="max-w-4xl mx-auto">
-          {!isAuthenticated ? (
-            <Card className="border-2 border-purple-200">
+        <div className="max-w-4xl mx-auto space-y-8">
+          {!isAuthenticated && (
+            <Card className="border-2 border-purple-200 mb-8">
               <CardHeader>
                 <CardTitle className="text-2xl text-center text-purple-800">Welcome to Cynect</CardTitle>
                 <CardDescription className="text-center">
@@ -54,9 +54,10 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
-          ) : (
-            <Dashboard />
           )}
+          
+          {/* Always show the Dashboard features */}
+          <Dashboard />
         </div>
       </div>
     </div>
