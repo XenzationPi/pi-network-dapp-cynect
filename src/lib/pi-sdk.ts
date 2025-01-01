@@ -1,4 +1,3 @@
-// Pi Network SDK Types
 interface PiPayment {
   identifier: string;
   user_uid: string;
@@ -86,11 +85,9 @@ class PiNetworkClient {
     return window.Pi.getWalletAddress();
   }
 
-  async getBalance(): Promise<number> {
-    // Note: This is a mock implementation
-    // In production, you would need to implement this using Pi's blockchain API
-    // according to their guidelines
-    return 100;
+  async createAIContent(prompt: string): Promise<void> {
+    // This method will be implemented when Pi Network's AI is available
+    throw new Error("Pi Network AI integration coming soon");
   }
 
   getCurrentUser(): PiUser | null {

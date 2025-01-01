@@ -2,12 +2,12 @@ import { PiAuth } from "@/components/PiAuth";
 import { Dashboard } from "@/components/Dashboard";
 import { useState, useEffect } from "react";
 import { piNetwork } from "@/lib/pi-sdk";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Load Pi SDK
     const script = document.createElement('script');
     script.src = 'https://sdk.minepi.com/pi-sdk.js';
     script.async = true;
@@ -30,20 +30,30 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8 text-purple-800">
-          Pi Network DApp
+        <h1 className="text-5xl font-bold text-center mb-4 text-purple-800">
+          Cynect
         </h1>
+        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+          Your bridge to Pi Network's AI-powered content creation. Connect your wallet to start creating amazing content with Pi Network's upcoming AI technology.
+        </p>
         
-        <div className="max-w-md mx-auto">
+        <div className="max-w-4xl mx-auto">
           {!isAuthenticated ? (
-            <div className="text-center space-y-4">
-              <p className="text-gray-600 mb-4">
-                Connect your Pi wallet to get started
-              </p>
-              <PiAuth onAuthenticated={() => setIsAuthenticated(true)} />
-            </div>
+            <Card className="border-2 border-purple-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-center text-purple-800">Welcome to Cynect</CardTitle>
+                <CardDescription className="text-center">
+                  Connect your Pi wallet to access AI-powered content creation tools
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="max-w-sm mx-auto">
+                  <PiAuth onAuthenticated={() => setIsAuthenticated(true)} />
+                </div>
+              </CardContent>
+            </Card>
           ) : (
             <Dashboard />
           )}
