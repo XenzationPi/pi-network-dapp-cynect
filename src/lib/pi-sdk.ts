@@ -1,3 +1,5 @@
+import { supabase } from "@/integrations/supabase/client";
+
 interface PiPayment {
   identifier: string;
   user_uid: string;
