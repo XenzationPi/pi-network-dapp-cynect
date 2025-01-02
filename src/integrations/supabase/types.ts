@@ -36,6 +36,67 @@ export type Database = {
         }
         Relationships: []
       }
+      user_rewards: {
+        Row: {
+          id: string
+          last_action_at: string | null
+          points: number | null
+          total_contributions: number | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          last_action_at?: string | null
+          points?: number | null
+          total_contributions?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          last_action_at?: string | null
+          points?: number | null
+          total_contributions?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_rewards_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      waitlist_members: {
+        Row: {
+          id: string
+          joined_at: string | null
+          priority_level: number | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          joined_at?: string | null
+          priority_level?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          joined_at?: string | null
+          priority_level?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waitlist_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

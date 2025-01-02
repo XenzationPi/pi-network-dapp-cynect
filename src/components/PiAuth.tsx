@@ -34,6 +34,31 @@ export const PiAuth = ({ onAuthenticated }: PiAuthProps) => {
         throw error;
       }
 
+      // Add user to waitlist if not already added
+      const { error: waitlistError } = await supabase
+        .from('waitlist_members')
+        .upsert({
+          user_id: user.uid,
+          joined_at: new Date().toISOString(),
+        });
+
+      if (waitlistError) {
+        console.error("Waitlist join error:", waitlistError);
+      }
+
+      // Initialize user rewards if not exists
+      const { error: rewardsError } = await supabase
+        .from('user_rewards')
+        .upsert({
+          user_id: user.uid,
+          points: 0,
+          total_contributions: 0,
+        });
+
+      if (rewardsError) {
+        console.error("Rewards initialization error:", rewardsError);
+      }
+
       toast({
         title: "Successfully connected",
         description: `Welcome ${user.username}!`,

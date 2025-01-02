@@ -59,7 +59,7 @@ class PiNetworkClient {
     if (!window.Pi) {
       throw new Error("Pi Network SDK not loaded");
     }
-    window.Pi.init({ version: "2.0", sandbox: true });
+    window.Pi.init({ version: "2.0", sandbox: true }); // Set sandbox to false in production
   }
 
   async authenticate(): Promise<PiUser> {
@@ -67,31 +67,49 @@ class PiNetworkClient {
       throw new Error("Pi Network SDK not loaded");
     }
 
-    const scopes = ["username", "payments", "wallet_address"];
-    const handleIncompletePayment = (payment: PiPayment) => {
-      console.log("Incomplete payment found:", payment);
-      // Implement incomplete payment handling according to Pi guidelines
-    };
+    try {
+      const scopes = ["username", "payments", "wallet_address"];
+      const handleIncompletePayment = (payment: PiPayment) => {
+        console.log("Incomplete payment found:", payment);
+      };
 
-    const user = await window.Pi.authenticate(scopes, handleIncompletePayment);
-    this.currentUser = user;
-    return user;
-  }
+      const user = await window.Pi.authenticate(scopes, handleIncompletePayment);
+      this.currentUser = user;
 
-  async getWalletAddress(): Promise<string> {
-    if (!window.Pi) {
-      throw new Error("Pi Network SDK not loaded");
+      // Store user data in Supabase
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .upsert({
+          user_id: user.uid,
+          username: user.username,
+          updated_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error updating profile:", error);
+        throw error;
+      }
+
+      return user;
+    } catch (error) {
+      console.error("Pi Network authentication error:", error);
+      throw error;
     }
-    return window.Pi.getWalletAddress();
-  }
-
-  async createAIContent(prompt: string): Promise<void> {
-    // This method will be implemented when Pi Network's AI is available
-    throw new Error("Pi Network AI integration coming soon");
   }
 
   getCurrentUser(): PiUser | null {
     return this.currentUser;
+  }
+
+  async isKYCVerified(): Promise<boolean> {
+    const user = this.getCurrentUser();
+    if (!user) return false;
+    
+    // In a real implementation, you would check the user's KYC status
+    // This is a placeholder that always returns true
+    return true;
   }
 }
 
