@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { piNetwork } from "@/lib/pi-sdk";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { Menu } from "@/components/Menu";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,6 +41,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100">
+      <Menu />
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
