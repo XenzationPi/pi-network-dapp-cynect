@@ -104,15 +104,6 @@ class PiNetworkClient {
   getCurrentUser(): PiUser | null {
     return this.currentUser;
   }
-
-  async isKYCVerified(): Promise<boolean> {
-    const user = this.getCurrentUser();
-    if (!user) return false;
-    
-    // In a real implementation, you would check the user's KYC status
-    // This is a placeholder that always returns true
-    return true;
-  }
 }
 
 export const piNetwork = PiNetworkClient.getInstance();
