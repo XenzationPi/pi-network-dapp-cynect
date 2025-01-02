@@ -2,7 +2,7 @@ import { PiAuth } from "@/components/PiAuth";
 import { Dashboard } from "@/components/Dashboard";
 import { useState, useEffect } from "react";
 import { piNetwork } from "@/lib/pi-sdk";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
@@ -10,37 +10,28 @@ const Index = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load Pi SDK
-    const script = document.createElement('script');
-    script.src = 'https://sdk.minepi.com/pi-sdk.js';
-    script.async = true;
-    script.onload = async () => {
+    const checkAuthStatus = async () => {
       try {
         await piNetwork.init();
-        console.log("Pi SDK initialized successfully");
-        
-        // Check if user is already authenticated
         const currentUser = piNetwork.getCurrentUser();
         if (currentUser) {
           setIsAuthenticated(true);
+          toast({
+            title: "Welcome back!",
+            description: `Connected as ${currentUser.username}`,
+          });
         }
       } catch (error) {
-        console.error("Failed to initialize Pi SDK:", error);
+        console.error("Pi Network initialization error:", error);
         toast({
-          title: "Error",
-          description: "Failed to initialize Pi Network integration",
+          title: "Connection Error",
+          description: "Failed to connect to Pi Network",
           variant: "destructive",
         });
       }
     };
-    document.body.appendChild(script);
 
-    return () => {
-      const existingScript = document.querySelector('script[src="https://sdk.minepi.com/pi-sdk.js"]');
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-    };
+    checkAuthStatus();
   }, []);
 
   const handleAuthenticated = () => {
