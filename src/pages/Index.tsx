@@ -7,7 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isKYCVerified, setIsKYCVerified] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -24,8 +23,6 @@ const Index = () => {
         const currentUser = piNetwork.getCurrentUser();
         if (currentUser) {
           setIsAuthenticated(true);
-          const kycStatus = await piNetwork.isKYCVerified();
-          setIsKYCVerified(kycStatus);
         }
       } catch (error) {
         console.error("Failed to initialize Pi SDK:", error);
@@ -46,10 +43,8 @@ const Index = () => {
     };
   }, []);
 
-  const handleAuthenticated = async () => {
+  const handleAuthenticated = () => {
     setIsAuthenticated(true);
-    const kycStatus = await piNetwork.isKYCVerified();
-    setIsKYCVerified(kycStatus);
   };
 
   return (
@@ -83,7 +78,7 @@ const Index = () => {
               <Card className="border-2 border-purple-200 shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center text-purple-800">
-                    {isKYCVerified ? "KYC Verified ✓" : "KYC Status Pending"}
+                    Connected ✓
                   </CardTitle>
                 </CardHeader>
               </Card>
