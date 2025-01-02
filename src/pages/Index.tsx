@@ -5,6 +5,7 @@ import { piNetwork } from "@/lib/pi-sdk";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Menu } from "@/components/Menu";
+import { ProfileForm } from "@/components/ProfileForm";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -67,7 +68,7 @@ const Index = () => {
               </Card>
             </div>
           ) : (
-            <div className="max-w-sm mx-auto mb-16">
+            <div className="space-y-8">
               <Card className="border-2 border-purple-200 shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-2xl text-center text-purple-800">
@@ -75,19 +76,11 @@ const Index = () => {
                   </CardTitle>
                 </CardHeader>
               </Card>
+              <ProfileForm />
+              <Dashboard />
             </div>
           )}
         </div>
-
-        {/* Features Section */}
-        {isAuthenticated && (
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-semibold text-center text-purple-800 mb-12">
-              Explore What's Possible with Cynect
-            </h2>
-            <Dashboard />
-          </div>
-        )}
       </div>
     </div>
   );
