@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/components/ui/use-toast";
 import { Menu } from "@/components/Menu";
 import { ProfileForm } from "@/components/ProfileForm";
+import { WaitlistDisplay } from "@/components/WaitlistDisplay";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,15 +37,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900">
       <Menu />
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section with animation */}
         <div className="text-center mb-16 space-y-6 animate-fade-in">
-          <h1 className="text-6xl font-bold text-purple-800 mb-6 hover:scale-105 transition-transform duration-300">
+          <h1 className="text-6xl font-bold text-purple-800 dark:text-purple-200 mb-6 hover:scale-105 transition-transform duration-300">
             Cynect
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8 animate-[fade-in_0.6s_ease-out]">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 animate-[fade-in_0.6s_ease-out]">
             Your bridge to Pi Network's AI-powered content creation. Connect your Pi wallet to start creating amazing content with Pi Network's upcoming AI technology.
           </p>
 
@@ -53,7 +54,7 @@ const Index = () => {
               <div className="max-w-sm mx-auto">
                 <Card className="border-2 border-purple-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <CardHeader>
-                    <CardTitle className="text-2xl text-center text-purple-800">Get Started</CardTitle>
+                    <CardTitle className="text-2xl text-center text-purple-800 dark:text-purple-200">Get Started</CardTitle>
                     <CardDescription className="text-center">
                       Connect your Pi wallet to access all features
                     </CardDescription>
@@ -63,6 +64,8 @@ const Index = () => {
                   </CardContent>
                 </Card>
               </div>
+
+              <WaitlistDisplay />
 
               {/* Features Preview with staggered animations */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -113,7 +116,7 @@ const Index = () => {
             <div className="space-y-8 animate-fade-in">
               <Card className="border-2 border-purple-200 shadow-lg hover:shadow-xl transition-all duration-300">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-center text-purple-800">
+                  <CardTitle className="text-2xl text-center text-purple-800 dark:text-purple-200">
                     Connected ✓
                   </CardTitle>
                 </CardHeader>
