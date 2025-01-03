@@ -15,7 +15,7 @@ export const WaitlistDisplay = () => {
       const { count } = await supabase
         .from('waitlist_members')
         .select('*', { count: 'exact', head: true });
-      return count || 0;
+      return count ?? 0;
     },
   });
 
@@ -24,7 +24,9 @@ export const WaitlistDisplay = () => {
     const fetchPosition = async () => {
       if (currentUser?.uid) {
         const { data } = await supabase
-          .rpc('get_waitlist_position', { user_uid: currentUser.uid });
+          .rpc('get_waitlist_position', {
+            user_uid: currentUser.uid
+          });
         setUserPosition(data);
       }
     };
