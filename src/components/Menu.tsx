@@ -20,22 +20,37 @@ export const Menu = () => {
         </MenubarTrigger>
         <MenubarContent className="min-w-[200px] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/75">
           <MenubarItem
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center gap-2"
             onClick={() => navigate("/")}
           >
+            <img 
+              src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d" 
+              alt="Home" 
+              className="w-4 h-4 rounded-sm object-cover"
+            />
             Home
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center gap-2"
             onClick={() => navigate("/dashboard")}
           >
+            <img 
+              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" 
+              alt="Dashboard" 
+              className="w-4 h-4 rounded-sm object-cover"
+            />
             Dashboard
           </MenubarItem>
           <MenubarItem
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center gap-2"
             onClick={() => window.open("https://pi.app", "_blank")}
           >
+            <img 
+              src="https://images.unsplash.com/photo-1518770660439-4636190af475" 
+              alt="Pi Browser" 
+              className="w-4 h-4 rounded-sm object-cover"
+            />
             Pi Browser
           </MenubarItem>
         </MenubarContent>
