@@ -35,7 +35,6 @@ const Index = () => {
           variant: "destructive",
         });
       } finally {
-        // Add a small delay before setting loading to false to ensure content is ready
         setTimeout(() => {
           setIsLoading(false);
         }, 100);
@@ -44,6 +43,10 @@ const Index = () => {
 
     checkAuthStatus();
   }, []);
+
+  const handleAuthenticated = () => {
+    setIsAuthenticated(true);
+  };
 
   if (isLoading) {
     return (
