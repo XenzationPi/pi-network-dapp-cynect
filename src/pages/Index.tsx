@@ -7,14 +7,17 @@ import { useToast } from "@/components/ui/use-toast";
 import { Menu } from "@/components/Menu";
 import { ProfileForm } from "@/components/ProfileForm";
 import { WaitlistDisplay } from "@/components/WaitlistDisplay";
+import { Loader2 } from "lucide-react";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
+        setIsLoading(true);
         await piNetwork.init();
         const currentUser = piNetwork.getCurrentUser();
         if (currentUser) {
@@ -26,6 +29,13 @@ const Index = () => {
         }
       } catch (error) {
         console.error("Pi Network initialization error:", error);
+        toast({
+          title: "Connection Error",
+          description: "Unable to connect to Pi Network. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -35,6 +45,19 @@ const Index = () => {
   const handleAuthenticated = () => {
     setIsAuthenticated(true);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-100 dark:from-purple-950 dark:via-purple-900 dark:to-purple-800 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="w-12 h-12 animate-spin text-purple-600 dark:text-purple-400 mx-auto" />
+          <p className="text-purple-800 dark:text-purple-200 animate-pulse">
+            Connecting to Pi Network...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-100 dark:from-purple-950 dark:via-purple-900 dark:to-purple-800">

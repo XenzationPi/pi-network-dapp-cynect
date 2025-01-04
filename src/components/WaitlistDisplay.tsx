@@ -4,12 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { piNetwork } from "@/lib/pi-sdk";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 export const WaitlistDisplay = () => {
   const [userPosition, setUserPosition] = useState<number | null>(null);
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const { toast } = useToast();
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [isLoadingPosition, setIsLoadingPosition] = useState(false);
 
   // Initialize Pi SDK and get current user
   useEffect(() => {
@@ -28,7 +30,7 @@ export const WaitlistDisplay = () => {
   }, []);
 
   // Query to get total waitlist count
-  const { data: totalCount } = useQuery({
+  const { data: totalCount, isLoading: isLoadingCount } = useQuery({
     queryKey: ['waitlistCount'],
     queryFn: async () => {
       const { count } = await supabase
@@ -43,6 +45,7 @@ export const WaitlistDisplay = () => {
     const fetchPosition = async () => {
       if (currentUser?.uid) {
         try {
+          setIsLoadingPosition(true);
           const { data, error } = await supabase
             .rpc('get_waitlist_position', {
               user_uid: currentUser.uid
@@ -61,6 +64,8 @@ export const WaitlistDisplay = () => {
           setUserPosition(data);
         } catch (error) {
           console.error('Error:', error);
+        } finally {
+          setIsLoadingPosition(false);
         }
       }
     };
@@ -84,21 +89,33 @@ export const WaitlistDisplay = () => {
         <CardContent className="space-y-6">
           <div className="flex justify-center items-center space-x-8">
             <div className="text-center p-6 bg-white/50 dark:bg-purple-900/50 rounded-lg backdrop-blur-sm animate-fade-in opacity-0" style={{ animationDelay: '0.3s' }}>
-              <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-300 dark:to-purple-100 bg-clip-text text-transparent">
-                {totalCount?.toLocaleString()}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                Pioneers Waiting
-              </p>
+              {isLoadingCount ? (
+                <Loader2 className="w-8 h-8 animate-spin text-purple-600 dark:text-purple-400 mx-auto" />
+              ) : (
+                <>
+                  <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-300 dark:to-purple-100 bg-clip-text text-transparent">
+                    {totalCount?.toLocaleString()}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                    Pioneers Waiting
+                  </p>
+                </>
+              )}
             </div>
-            {userPosition && (
+            {(currentUser?.uid || isLoadingPosition) && (
               <div className="text-center p-6 bg-white/50 dark:bg-purple-900/50 rounded-lg backdrop-blur-sm animate-slide-in opacity-0" style={{ animationDelay: '0.4s' }}>
-                <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-300 dark:to-purple-100 bg-clip-text text-transparent">
-                  #{userPosition}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                  Your Position
-                </p>
+                {isLoadingPosition ? (
+                  <Loader2 className="w-8 h-8 animate-spin text-purple-600 dark:text-purple-400 mx-auto" />
+                ) : userPosition ? (
+                  <>
+                    <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-300 dark:to-purple-100 bg-clip-text text-transparent">
+                      #{userPosition}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                      Your Position
+                    </p>
+                  </>
+                ) : null}
               </div>
             )}
           </div>
