@@ -3,10 +3,29 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { piNetwork } from "@/lib/pi-sdk";
 import { useEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 export const WaitlistDisplay = () => {
   const [userPosition, setUserPosition] = useState<number | null>(null);
-  const currentUser = piNetwork.getCurrentUser();
+  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
+  const { toast } = useToast();
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Initialize Pi SDK and get current user
+  useEffect(() => {
+    const initPiSDK = async () => {
+      try {
+        await piNetwork.init();
+        setIsSDKLoaded(true);
+        const user = piNetwork.getCurrentUser();
+        setCurrentUser(user);
+      } catch (error) {
+        console.log("Pi SDK not ready yet, waiting for initialization");
+      }
+    };
+    
+    initPiSDK();
+  }, []);
 
   // Query to get total waitlist count
   const { data: totalCount } = useQuery({
@@ -23,15 +42,33 @@ export const WaitlistDisplay = () => {
   useEffect(() => {
     const fetchPosition = async () => {
       if (currentUser?.uid) {
-        const { data } = await supabase
-          .rpc('get_waitlist_position', {
-            user_uid: currentUser.uid
-          });
-        setUserPosition(data);
+        try {
+          const { data, error } = await supabase
+            .rpc('get_waitlist_position', {
+              user_uid: currentUser.uid
+            });
+            
+          if (error) {
+            console.error('Error fetching position:', error);
+            toast({
+              title: "Error",
+              description: "Could not fetch your waitlist position",
+              variant: "destructive",
+            });
+            return;
+          }
+          
+          setUserPosition(data);
+        } catch (error) {
+          console.error('Error:', error);
+        }
       }
     };
-    fetchPosition();
-  }, [currentUser?.uid]);
+    
+    if (isSDKLoaded && currentUser?.uid) {
+      fetchPosition();
+    }
+  }, [currentUser?.uid, isSDKLoaded, toast]);
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-8">
