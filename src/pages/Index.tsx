@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Menu } from "@/components/Menu";
 import { ProfileForm } from "@/components/ProfileForm";
 import { WaitlistDisplay } from "@/components/WaitlistDisplay";
-import { Loader2, Coins, Sparkles, Exchange } from "lucide-react";
+import { Loader2, Coins, Sparkles, Repeat } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
@@ -137,7 +137,7 @@ const Index = () => {
                 <Card className="border-purple-200 dark:border-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/80 dark:bg-purple-900/80 backdrop-blur-sm">
                   <CardHeader className="space-y-4">
                     <div className="mx-auto bg-purple-100 dark:bg-purple-800 p-3 rounded-full w-fit">
-                      <Exchange className="w-8 h-8 text-purple-600 dark:text-purple-300" />
+                      <Repeat className="w-8 h-8 text-purple-600 dark:text-purple-300" />
                     </div>
                     <CardTitle className="text-xl bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-300 dark:to-purple-100 bg-clip-text text-transparent">
                       Token Exchange
