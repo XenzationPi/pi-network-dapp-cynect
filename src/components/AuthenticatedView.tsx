@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 import { TokenDashboard } from "@/components/TokenDashboard";
 import { ProfileForm } from "@/components/ProfileForm";
 import { Dashboard } from "@/components/Dashboard";
+import { Leaderboard } from "@/components/Leaderboard";
 import { Coins } from "lucide-react";
 
 interface AuthenticatedViewProps {
@@ -28,8 +29,15 @@ export const AuthenticatedView = ({ userRewards }: AuthenticatedViewProps) => (
         </CardDescription>
       </CardHeader>
     </Card>
-    <TokenDashboard />
-    <ProfileForm />
-    <Dashboard />
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="space-y-8">
+        <TokenDashboard />
+        <ProfileForm />
+        <Dashboard />
+      </div>
+      <div className="space-y-8">
+        <Leaderboard />
+      </div>
+    </div>
   </div>
 );

@@ -179,6 +179,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_leaderboard: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          username: string
+          points: number
+          rank: number
+        }[]
+      }
       get_waitlist_position: {
         Args: {
           user_uid: string
