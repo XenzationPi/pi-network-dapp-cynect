@@ -8,6 +8,7 @@ import { Menu } from "@/components/Menu";
 import { ProfileForm } from "@/components/ProfileForm";
 import { WaitlistDisplay } from "@/components/WaitlistDisplay";
 import { TokenDashboard } from "@/components/TokenDashboard";
+import { TokenSummary } from "@/components/TokenSummary";
 import { Loader2, Coins, Sparkles, Repeat } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -25,7 +26,6 @@ const Index = () => {
         const currentUser = piNetwork.getCurrentUser();
         if (currentUser) {
           setIsAuthenticated(true);
-          // Fetch user rewards
           const { data: rewards, error } = await supabase
             .from('user_rewards')
             .select('points')
@@ -56,10 +56,6 @@ const Index = () => {
 
     checkAuthStatus();
   }, []);
-
-  const handleAuthenticated = () => {
-    setIsAuthenticated(true);
-  };
 
   if (isLoading) {
     return (
@@ -104,6 +100,7 @@ const Index = () => {
                 </Card>
               </div>
 
+              <TokenSummary />
               <WaitlistDisplay />
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
