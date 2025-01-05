@@ -57,6 +57,10 @@ const Index = () => {
     checkAuthStatus();
   }, []);
 
+  const handleAuthenticated = () => {
+    setIsAuthenticated(true);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-100 dark:from-purple-950 dark:via-purple-900 dark:to-purple-800 flex items-center justify-center">
