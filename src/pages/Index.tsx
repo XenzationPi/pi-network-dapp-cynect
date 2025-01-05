@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Menu } from "@/components/Menu";
 import { ProfileForm } from "@/components/ProfileForm";
 import { WaitlistDisplay } from "@/components/WaitlistDisplay";
+import { TokenDashboard } from "@/components/TokenDashboard";
 import { Loader2, Coins, Sparkles, Repeat } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -160,7 +161,7 @@ const Index = () => {
                     <div className="flex items-center justify-center space-x-2 mt-4">
                       <Coins className="w-5 h-5 text-purple-600 dark:text-purple-300" />
                       <span className="text-lg font-semibold text-purple-600 dark:text-purple-300">
-                        {userRewards.points} Tokens
+                        {userRewards.points} CYN
                       </span>
                     </div>
                   )}
@@ -169,6 +170,7 @@ const Index = () => {
                   </CardDescription>
                 </CardHeader>
               </Card>
+              <TokenDashboard />
               <ProfileForm />
               <Dashboard />
             </div>

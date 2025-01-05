@@ -51,6 +51,68 @@ export type Database = {
         }
         Relationships: []
       }
+      token_distribution_rules: {
+        Row: {
+          action_type: string
+          created_at: string | null
+          daily_limit: number | null
+          description: string | null
+          id: string
+          tokens_awarded: number
+          updated_at: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string | null
+          daily_limit?: number | null
+          description?: string | null
+          id?: string
+          tokens_awarded: number
+          updated_at?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string | null
+          daily_limit?: number | null
+          description?: string | null
+          id?: string
+          tokens_awarded?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      token_earning_history: {
+        Row: {
+          action_type: string
+          earned_at: string | null
+          id: string
+          tokens_earned: number
+          user_id: string | null
+        }
+        Insert: {
+          action_type: string
+          earned_at?: string | null
+          id?: string
+          tokens_earned: number
+          user_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          earned_at?: string | null
+          id?: string
+          tokens_earned?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "token_earning_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       user_rewards: {
         Row: {
           id: string
