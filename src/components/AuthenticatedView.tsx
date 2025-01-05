@@ -3,6 +3,7 @@ import { TokenDashboard } from "@/components/TokenDashboard";
 import { ProfileForm } from "@/components/ProfileForm";
 import { Dashboard } from "@/components/Dashboard";
 import { Leaderboard } from "@/components/Leaderboard";
+import { AchievementsDisplay } from "@/components/AchievementsDisplay";
 import { Coins } from "lucide-react";
 
 interface AuthenticatedViewProps {
@@ -34,6 +35,7 @@ export const AuthenticatedView = ({ userRewards }: AuthenticatedViewProps) => (
         <TokenDashboard />
         <ProfileForm />
         <Dashboard />
+        <AchievementsDisplay />
       </div>
       <div className="space-y-8">
         <Leaderboard />
