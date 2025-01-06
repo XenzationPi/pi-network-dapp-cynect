@@ -58,11 +58,6 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -73,30 +68,31 @@ export default {
           to: { height: "0" },
         },
         "fade-in": {
-          "0%": { 
-            opacity: "0",
-            transform: "translateY(10px)"
-          },
-          "100%": { 
-            opacity: "1",
-            transform: "translateY(0)"
-          }
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "scale-up": {
           "0%": { transform: "scale(0.95)" },
-          "100%": { transform: "scale(1)" }
+          "100%": { transform: "scale(1)" },
         },
         "slide-in": {
           "0%": { transform: "translateX(-10px)", opacity: "0" },
-          "100%": { transform: "translateX(0)", opacity: "1" }
-        }
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        blob: {
+          "0%": { transform: "translate(0px, 0px) scale(1)" },
+          "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+          "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+          "100%": { transform: "translate(0px, 0px) scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
         "scale-up": "scale-up 0.3s ease-out",
-        "slide-in": "slide-in 0.3s ease-out"
+        "slide-in": "slide-in 0.3s ease-out",
+        blob: "blob 7s infinite",
       },
     },
   },
