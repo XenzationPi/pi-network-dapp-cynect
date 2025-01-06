@@ -212,18 +212,30 @@ export type Database = {
         Row: {
           id: string
           joined_at: string | null
+          nft_badge_status: string | null
+          nft_minted_at: string | null
+          nft_token_id: string | null
+          nft_transaction_hash: string | null
           priority_level: number | null
           user_id: string | null
         }
         Insert: {
           id?: string
           joined_at?: string | null
+          nft_badge_status?: string | null
+          nft_minted_at?: string | null
+          nft_token_id?: string | null
+          nft_transaction_hash?: string | null
           priority_level?: number | null
           user_id?: string | null
         }
         Update: {
           id?: string
           joined_at?: string | null
+          nft_badge_status?: string | null
+          nft_minted_at?: string | null
+          nft_token_id?: string | null
+          nft_transaction_hash?: string | null
           priority_level?: number | null
           user_id?: string | null
         }
