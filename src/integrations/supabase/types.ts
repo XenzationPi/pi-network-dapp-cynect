@@ -256,6 +256,12 @@ export type Database = {
         }
         Returns: number
       }
+      is_eligible_for_early_access: {
+        Args: {
+          position_number: number
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
