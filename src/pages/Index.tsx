@@ -6,7 +6,7 @@ import { LoadingScreen } from "@/components/LoadingScreen";
 import { UnauthenticatedView } from "@/components/UnauthenticatedView";
 import { AuthenticatedView } from "@/components/AuthenticatedView";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, Neurons } from "lucide-react";
+import { Sparkles, CircuitBoard } from "lucide-react";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -62,12 +62,12 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
-      {/* Neural network background overlay */}
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
+      {/* Abstract metallic background overlay */}
       <div 
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage: "url('/lovable-uploads/d7099fbe-fdfd-43ba-99d2-dcf6b7c2fb07.png')",
+          backgroundImage: "url('/lovable-uploads/984bf8a9-bab6-4a9a-ac11-46fa9e1407bf.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -76,12 +76,12 @@ const Index = () => {
       />
       
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 animate-gradient" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-cyan-900/30 animate-gradient" />
       
       {/* Glowing orbs effect */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse delay-1000" />
+        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-cyan-500/20 rounded-full filter blur-3xl animate-pulse delay-1000" />
       </div>
       
       {/* Content */}
@@ -90,7 +90,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-12">
           <div className="text-center mb-16 space-y-6 animate-fade-in">
             <div className="relative inline-block">
-              <h1 className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-white to-blue-300 mb-6 filter drop-shadow-lg animate-scale-up">
+              <h1 className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-white to-cyan-300 mb-6 filter drop-shadow-lg animate-scale-up">
                 Cynect
               </h1>
               <Sparkles className="absolute -top-4 -right-8 h-8 w-8 text-purple-300 animate-pulse" />
@@ -111,7 +111,7 @@ const Index = () => {
         </div>
       </div>
       
-      {/* Neural connection lines */}
+      {/* Metallic circuit lines */}
       <div className="fixed bottom-0 left-0 w-full h-1/3 pointer-events-none overflow-hidden">
         <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1200 200">
           <path
@@ -122,7 +122,7 @@ const Index = () => {
             d="M0,100 C300,10 900,190 1200,100"
           />
           <path
-            className="text-blue-500/20"
+            className="text-cyan-500/20"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
