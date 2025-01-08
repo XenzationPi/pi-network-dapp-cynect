@@ -82,7 +82,7 @@ export const PiAuth = ({ onAuthenticated }: PiAuthProps) => {
       disabled={isLoading}
       className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900"
     >
-      {isLoading ? "Connecting..." : "Connect Pi Wallet"}
+      {isLoading ? "Connecting..." : "Connect with Pi Browser"}
     </Button>
   );
 };

@@ -13,7 +13,7 @@ export const UnauthenticatedView = ({ onAuthenticated }: { onAuthenticated: () =
             Get Started
           </CardTitle>
           <CardDescription className="text-center text-gray-400 dark:text-gray-300 animate-fade-in" style={{ animationDelay: "100ms" }}>
-            Connect your Pi wallet to access all features and start earning tokens
+            Connect with Pi Browser to access all features and start earning tokens
           </CardDescription>
         </CardHeader>
         <CardContent>
