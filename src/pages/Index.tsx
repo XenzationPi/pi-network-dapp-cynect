@@ -5,6 +5,7 @@ import { Menu } from "@/components/Menu";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { UnauthenticatedView } from "@/components/UnauthenticatedView";
 import { AuthenticatedView } from "@/components/AuthenticatedView";
+import { RecommendationsPanel } from "@/components/RecommendationsPanel";
 import { supabase } from "@/integrations/supabase/client";
 import { Sparkles, CircuitBoard } from "lucide-react";
 
