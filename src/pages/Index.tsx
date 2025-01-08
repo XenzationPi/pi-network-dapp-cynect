@@ -63,7 +63,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
-      {/* Abstract metallic background overlay */}
       <div 
         className="absolute inset-0 opacity-20"
         style={{
@@ -84,7 +83,6 @@ const Index = () => {
         <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-cyan-500/20 rounded-full filter blur-3xl animate-pulse delay-1000" />
       </div>
       
-      {/* Content */}
       <div className="relative z-10">
         <Menu />
         <div className="container mx-auto px-4 py-12">
@@ -104,7 +102,10 @@ const Index = () => {
               {!isAuthenticated ? (
                 <UnauthenticatedView onAuthenticated={handleAuthenticated} />
               ) : (
-                <AuthenticatedView userRewards={userRewards} />
+                <div className="space-y-8">
+                  <AuthenticatedView userRewards={userRewards} />
+                  <RecommendationsPanel />
+                </div>
               )}
             </div>
           </div>
