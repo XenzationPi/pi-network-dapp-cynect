@@ -6,7 +6,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { Menu as MenuIcon } from "lucide-react";
+import { Menu as MenuIcon, Home, LogIn } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
@@ -23,11 +23,7 @@ export const Menu = () => {
             className="cursor-pointer flex items-center gap-2"
             onClick={() => navigate("/")}
           >
-            <img 
-              src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d" 
-              alt="Home" 
-              className="w-4 h-4 rounded-sm object-cover"
-            />
+            <Home className="h-4 w-4" />
             Home
           </MenubarItem>
           <MenubarSeparator />
@@ -35,23 +31,8 @@ export const Menu = () => {
             className="cursor-pointer flex items-center gap-2"
             onClick={() => navigate("/dashboard")}
           >
-            <img 
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" 
-              alt="Dashboard" 
-              className="w-4 h-4 rounded-sm object-cover"
-            />
-            Dashboard
-          </MenubarItem>
-          <MenubarItem
-            className="cursor-pointer flex items-center gap-2"
-            onClick={() => window.open("https://pi.app", "_blank")}
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1518770660439-4636190af475" 
-              alt="Pi Browser" 
-              className="w-4 h-4 rounded-sm object-cover"
-            />
-            Pi Browser
+            <LogIn className="h-4 w-4" />
+            Connect with Pi
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
