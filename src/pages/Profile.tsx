@@ -36,12 +36,12 @@ const Profile = () => {
 
           const { data: rewards } = await supabase
             .from('user_rewards')
-            .select('points, created_at')
+            .select('points, last_action_at')
             .eq('user_id', user.uid)
-            .single();
+            .maybeSingle();
 
           setProfileStats({
-            joinedDate: new Date(rewards?.created_at || Date.now()).toLocaleDateString(),
+            joinedDate: rewards?.last_action_at ? new Date(rewards.last_action_at).toLocaleDateString() : 'N/A',
             achievementsCount: achievements?.length || 0,
             totalPoints: rewards?.points || 0
           });
