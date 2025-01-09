@@ -1,14 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Info, Medal } from "lucide-react";
 import { piNetwork } from "@/lib/pi-sdk";
+import { WaitlistStatus } from "./waitlist/WaitlistStatus";
+import { WaitlistStats } from "./waitlist/WaitlistStats";
 
 export const WaitlistDisplay = () => {
   const currentUser = piNetwork.getCurrentUser();
 
-  // Query to get the waitlist limit
   const { data: distributionRule, isLoading: isLoadingRule } = useQuery({
     queryKey: ["waitlistLimit"],
     queryFn: async () => {
@@ -23,7 +22,6 @@ export const WaitlistDisplay = () => {
     },
   });
 
-  // Query to get total waitlist members
   const { data: waitlistCount, isLoading: isLoadingCount } = useQuery({
     queryKey: ["waitlistCount"],
     queryFn: async () => {
@@ -36,7 +34,6 @@ export const WaitlistDisplay = () => {
     },
   });
 
-  // Query to get user's NFT badge status if authenticated
   const { data: userBadgeStatus, isLoading: isLoadingBadge } = useQuery({
     queryKey: ["nftBadgeStatus", currentUser?.uid],
     queryFn: async () => {
@@ -75,44 +72,16 @@ export const WaitlistDisplay = () => {
           </p>
         ) : (
           <>
-            {dailyLimit && (
-              <Alert className="bg-purple-50 dark:bg-purple-900/50 border-purple-200 dark:border-purple-700">
-                <Info className="h-4 w-4 text-purple-600 dark:text-purple-300" />
-                <AlertDescription className="text-purple-700 dark:text-purple-200">
-                  Limited spots available! Only the first {dailyLimit.toLocaleString()} members will get early access.
-                  {spotsRemaining !== null && spotsRemaining > 0 && (
-                    <span className="block mt-1 font-semibold">
-                      {spotsRemaining.toLocaleString()} spots remaining
-                    </span>
-                  )}
-                </AlertDescription>
-              </Alert>
-            )}
-            {typeof waitlistCount === 'number' && (
-              <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-                {waitlistCount.toLocaleString()} members have already joined
-              </p>
-            )}
+            <WaitlistStats 
+              dailyLimit={dailyLimit}
+              waitlistCount={waitlistCount || 0}
+              spotsRemaining={spotsRemaining}
+            />
             {userBadgeStatus && (
-              <Alert className="bg-purple-50 dark:bg-purple-900/50 border-purple-200 dark:border-purple-700">
-                <Medal className="h-4 w-4 text-purple-600 dark:text-purple-300" />
-                <AlertDescription className="text-purple-700 dark:text-purple-200">
-                  {userBadgeStatus.nft_badge_status === 'pending' ? (
-                    "Your exclusive NFT badge will be minted soon!"
-                  ) : userBadgeStatus.nft_badge_status === 'minted' ? (
-                    "Your NFT badge has been minted and will be transferred to your wallet soon!"
-                  ) : userBadgeStatus.nft_badge_status === 'transferred' ? (
-                    <>
-                      Your NFT badge has been transferred to your wallet!
-                      {userBadgeStatus.nft_token_id && (
-                        <span className="block mt-1 text-sm">
-                          Token ID: {userBadgeStatus.nft_token_id}
-                        </span>
-                      )}
-                    </>
-                  ) : null}
-                </AlertDescription>
-              </Alert>
+              <WaitlistStatus 
+                nftBadgeStatus={userBadgeStatus.nft_badge_status}
+                nftTokenId={userBadgeStatus.nft_token_id}
+              />
             )}
           </>
         )}
