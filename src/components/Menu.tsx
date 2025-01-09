@@ -37,7 +37,7 @@ export const Menu = () => {
           <MenubarSeparator />
           <MenubarItem
             className="cursor-pointer flex items-center gap-2"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/")}
           >
             <LogIn className="h-4 w-4" />
             Connect with Pi Browser

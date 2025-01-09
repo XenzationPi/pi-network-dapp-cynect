@@ -4,9 +4,10 @@ import { piNetwork } from "@/lib/pi-sdk";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PublicProfileView } from "@/components/PublicProfileView";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 const Profile = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,12 @@ const Profile = () => {
     checkAuth();
   }, []);
 
+  // Show loading screen while checking authentication
+  if (isAuthenticated === null) {
+    return <LoadingScreen />;
+  }
+
+  // Show public view for non-authenticated users
   if (!isAuthenticated) {
     return <PublicProfileView />;
   }
