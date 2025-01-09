@@ -13,7 +13,7 @@ export const Menu = () => {
   const navigate = useNavigate();
 
   return (
-    <Menubar className="fixed top-4 left-4 border-none bg-transparent">
+    <Menubar className="fixed top-4 left-4 z-50 border-none bg-transparent">
       <MenubarMenu>
         <MenubarTrigger className="cursor-pointer data-[state=open]:bg-purple-100 dark:data-[state=open]:bg-purple-900">
           <MenuIcon className="h-5 w-5 text-purple-800 dark:text-purple-200" />
