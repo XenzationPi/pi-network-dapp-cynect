@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { piNetwork } from "@/lib/pi-sdk";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PublicProfileView } from "@/components/PublicProfileView";
 
 const Profile = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,22 +13,18 @@ const Profile = () => {
     const checkAuth = async () => {
       try {
         const user = piNetwork.getCurrentUser();
-        if (!user) {
-          navigate('/');
-        } else {
-          setIsAuthenticated(true);
-        }
+        setIsAuthenticated(!!user);
       } catch (error) {
         console.error("Auth check failed:", error);
-        navigate('/');
+        setIsAuthenticated(false);
       }
     };
 
     checkAuth();
-  }, [navigate]);
+  }, []);
 
   if (!isAuthenticated) {
-    return null;
+    return <PublicProfileView />;
   }
 
   return (
