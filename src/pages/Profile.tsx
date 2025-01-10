@@ -17,32 +17,35 @@ interface ProfileStats {
 
 const Profile = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [profileStats, setProfileStats] = useState<ProfileStats | null>(null);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuthStatus = async () => {
       try {
-        const user = piNetwork.getCurrentUser();
-        console.log("Current user:", user); // Debug log
-        setIsAuthenticated(!!user);
+        setIsLoading(true);
+        console.log("Checking auth status..."); // Debug log
         
-        if (user) {
+        // First check if we have a current user without trying to authenticate
+        const currentUser = piNetwork.getCurrentUser();
+        console.log("Current user:", currentUser); // Debug log
+        
+        if (currentUser) {
+          setIsAuthenticated(true);
           // Fetch profile statistics
           const { data: achievements } = await supabase
             .from('user_achievements')
             .select('*')
-            .eq('user_id', user.uid);
-
-          console.log("Achievements:", achievements); // Debug log
+            .eq('user_id', currentUser.uid);
 
           const { data: rewards } = await supabase
             .from('user_rewards')
             .select('points, last_action_at')
-            .eq('user_id', user.uid)
+            .eq('user_id', currentUser.uid)
             .maybeSingle();
 
+          console.log("Achievements:", achievements); // Debug log
           console.log("Rewards:", rewards); // Debug log
 
           setProfileStats({
@@ -50,26 +53,28 @@ const Profile = () => {
             achievementsCount: achievements?.length || 0,
             totalPoints: rewards?.points || 0
           });
+        } else {
+          // If no current user, show public view without trying to authenticate
+          console.log("No current user found, showing public view"); // Debug log
+          setIsAuthenticated(false);
         }
       } catch (error) {
         console.error("Auth check failed:", error);
         setIsAuthenticated(false);
         toast({
           title: "Error",
-          description: "Failed to load profile. Please try again.",
+          description: "Unable to load profile. Please try again.",
           variant: "destructive",
         });
       } finally {
-        setTimeout(() => {
-          setIsAuthenticated(false);
-        }, 1000);
+        setIsLoading(false);
       }
     };
 
-    checkAuth();
+    checkAuthStatus();
   }, [toast]);
 
-  if (isAuthenticated === null) {
+  if (isLoading) {
     return <LoadingScreen />;
   }
 
@@ -78,7 +83,6 @@ const Profile = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         {isAuthenticated ? (
           <>
-            {/* Profile Header */}
             <Card className="border-2 border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg">
               <CardHeader>
                 <div className="flex items-center justify-center mb-4">
@@ -93,7 +97,6 @@ const Profile = () => {
               </CardHeader>
             </Card>
 
-            {/* Stats Grid */}
             {profileStats && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
@@ -134,7 +137,6 @@ const Profile = () => {
               </div>
             )}
 
-            {/* Profile Form */}
             <Card className="border-2 border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg">
               <CardContent className="p-6">
                 <ProfileForm />
