@@ -7,7 +7,7 @@ import { UnauthenticatedView } from "@/components/UnauthenticatedView";
 import { AuthenticatedView } from "@/components/AuthenticatedView";
 import { RecommendationsPanel } from "@/components/RecommendationsPanel";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, CircuitBoard } from "lucide-react";
+import { Sparkles, CircuitBoard, Coins, Users, Trophy } from "lucide-react";
 
 const Index = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -54,10 +54,6 @@ const Index = () => {
     checkAuthStatus();
   }, []);
 
-  const handleAuthenticated = () => {
-    setIsAuthenticated(true);
-  };
-
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -75,10 +71,8 @@ const Index = () => {
         }}
       />
       
-      {/* Animated gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-cyan-900/30 animate-gradient" />
       
-      {/* Glowing orbs effect */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-cyan-500/20 rounded-full filter blur-3xl animate-pulse delay-1000" />
@@ -99,38 +93,57 @@ const Index = () => {
               Your bridge to Pi Network's AI-powered content creation. Connect your Pi wallet to start earning tokens and creating amazing content.
             </p>
 
-            <div className="relative z-10 backdrop-blur-sm">
-              {!isAuthenticated ? (
-                <UnauthenticatedView onAuthenticated={handleAuthenticated} />
-              ) : (
-                <div className="space-y-8">
-                  <AuthenticatedView userRewards={userRewards} />
-                  <RecommendationsPanel />
-                </div>
-              )}
-            </div>
+            {!isAuthenticated ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto mt-16">
+                {[
+                  {
+                    icon: Coins,
+                    title: "Daily Rewards",
+                    description: "Earn tokens daily through login streaks and active participation"
+                  },
+                  {
+                    icon: Sparkles,
+                    title: "AI Creation",
+                    description: "Use earned tokens to generate unique content with our AI tools"
+                  },
+                  {
+                    icon: Users,
+                    title: "Community",
+                    description: "Engage with others and earn rewards for valuable contributions"
+                  },
+                  {
+                    icon: Trophy,
+                    title: "Achievements",
+                    description: "Complete challenges and climb the leaderboard rankings"
+                  }
+                ].map((feature, index) => (
+                  <div 
+                    key={feature.title}
+                    className="backdrop-blur-sm bg-white/5 p-6 rounded-lg border border-white/10 shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="p-3 rounded-full bg-purple-500/20">
+                        <feature.icon className="h-8 w-8 text-purple-300" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-purple-300">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-400 text-center">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-8">
+                <AuthenticatedView userRewards={userRewards} />
+                <RecommendationsPanel />
+              </div>
+            )}
           </div>
         </div>
-      </div>
-      
-      {/* Metallic circuit lines */}
-      <div className="fixed bottom-0 left-0 w-full h-1/3 pointer-events-none overflow-hidden">
-        <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1200 200">
-          <path
-            className="text-purple-500/20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            d="M0,100 C300,10 900,190 1200,100"
-          />
-          <path
-            className="text-cyan-500/20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            d="M0,150 C300,60 900,240 1200,150"
-          />
-        </svg>
       </div>
     </div>
   );
