@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { TokenDashboard } from "@/components/TokenDashboard";
+import { TokenSummary } from "@/components/TokenSummary";
 import { ProfileForm } from "@/components/ProfileForm";
 import { Dashboard } from "@/components/Dashboard";
 import { Leaderboard } from "@/components/Leaderboard";
@@ -32,6 +33,9 @@ export const AuthenticatedView = ({ userRewards }: AuthenticatedViewProps) => (
     </Card>
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div className="space-y-8 animate-fade-in">
+        <div className="transform hover:scale-105 transition-all duration-300">
+          <TokenSummary />
+        </div>
         <div className="transform hover:scale-105 transition-all duration-300">
           <TokenDashboard />
         </div>
