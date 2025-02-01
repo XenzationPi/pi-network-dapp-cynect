@@ -2,38 +2,43 @@ import { ProfileForm } from "@/components/ProfileForm";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { piNetwork } from "@/lib/pi-sdk";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { PublicProfileView } from "@/components/PublicProfileView";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { UserCircle2, Trophy, Calendar, Activity } from "lucide-react";
+import { UserCircle2, Trophy, Calendar, Activity, Link, Edit2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ProfileStats {
   joinedDate: string;
   achievementsCount: number;
   totalPoints: number;
+  socialLinks?: { [key: string]: string };
+  bio?: string;
 }
 
 const Profile = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [profileStats, setProfileStats] = useState<ProfileStats | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
         setIsLoading(true);
-        console.log("Checking auth status..."); // Debug log
-        
-        // First check if we have a current user without trying to authenticate
         const currentUser = piNetwork.getCurrentUser();
-        console.log("Current user:", currentUser); // Debug log
         
         if (currentUser) {
           setIsAuthenticated(true);
-          // Fetch profile statistics
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', currentUser.uid)
+            .single();
+
           const { data: achievements } = await supabase
             .from('user_achievements')
             .select('*')
@@ -45,17 +50,14 @@ const Profile = () => {
             .eq('user_id', currentUser.uid)
             .maybeSingle();
 
-          console.log("Achievements:", achievements); // Debug log
-          console.log("Rewards:", rewards); // Debug log
-
           setProfileStats({
             joinedDate: rewards?.last_action_at ? new Date(rewards.last_action_at).toLocaleDateString() : 'N/A',
             achievementsCount: achievements?.length || 0,
-            totalPoints: rewards?.points || 0
+            totalPoints: rewards?.points || 0,
+            socialLinks: profile?.social_links || {},
+            bio: profile?.bio || ''
           });
         } else {
-          // If no current user, show public view without trying to authenticate
-          console.log("No current user found, showing public view"); // Debug log
           setIsAuthenticated(false);
         }
       } catch (error) {
@@ -85,63 +87,106 @@ const Profile = () => {
           <>
             <Card className="border-2 border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg">
               <CardHeader>
-                <div className="flex items-center justify-center mb-4">
-                  <UserCircle2 className="w-20 h-20 text-purple-300" />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <UserCircle2 className="w-20 h-20 text-purple-300" />
+                    <div>
+                      <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-300 via-white to-cyan-300 bg-clip-text text-transparent">
+                        Your Profile
+                      </CardTitle>
+                      <CardDescription className="text-gray-300 mt-2">
+                        {profileStats?.bio || "Add a bio to tell others about yourself"}
+                      </CardDescription>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    className="bg-purple-500/20 hover:bg-purple-500/30"
+                    onClick={() => setIsEditing(!isEditing)}
+                  >
+                    <Edit2 className="w-4 h-4 mr-2" />
+                    Edit Profile
+                  </Button>
                 </div>
-                <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-purple-300 via-white to-cyan-300 bg-clip-text text-transparent">
-                  Your Profile
-                </CardTitle>
-                <CardDescription className="text-center text-gray-300">
-                  Manage your profile and view your achievements
-                </CardDescription>
               </CardHeader>
             </Card>
 
-            {profileStats && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center justify-center">
-                      <Calendar className="w-8 h-8 text-purple-300 mb-2" />
-                    </div>
-                    <CardTitle className="text-center text-lg text-purple-100">Joined</CardTitle>
-                    <CardDescription className="text-center text-purple-200">
-                      {profileStats.joinedDate}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
+                <CardHeader>
+                  <div className="flex items-center justify-center">
+                    <Calendar className="w-8 h-8 text-purple-300 mb-2" />
+                  </div>
+                  <CardTitle className="text-center text-lg text-purple-100">Joined</CardTitle>
+                  <CardDescription className="text-center text-purple-200">
+                    {profileStats?.joinedDate}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
 
-                <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center justify-center">
-                      <Trophy className="w-8 h-8 text-purple-300 mb-2" />
-                    </div>
-                    <CardTitle className="text-center text-lg text-purple-100">Achievements</CardTitle>
-                    <CardDescription className="text-center text-purple-200">
-                      {profileStats.achievementsCount}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
+              <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
+                <CardHeader>
+                  <div className="flex items-center justify-center">
+                    <Trophy className="w-8 h-8 text-purple-300 mb-2" />
+                  </div>
+                  <CardTitle className="text-center text-lg text-purple-100">Achievements</CardTitle>
+                  <CardDescription className="text-center text-purple-200">
+                    {profileStats?.achievementsCount}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
 
-                <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center justify-center">
-                      <Activity className="w-8 h-8 text-purple-300 mb-2" />
-                    </div>
-                    <CardTitle className="text-center text-lg text-purple-100">Total Points</CardTitle>
-                    <CardDescription className="text-center text-purple-200">
-                      {profileStats.totalPoints}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </div>
-            )}
+              <Card className="border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg transform hover:scale-105 transition-all duration-300">
+                <CardHeader>
+                  <div className="flex items-center justify-center">
+                    <Activity className="w-8 h-8 text-purple-300 mb-2" />
+                  </div>
+                  <CardTitle className="text-center text-lg text-purple-100">Total Points</CardTitle>
+                  <CardDescription className="text-center text-purple-200">
+                    {profileStats?.totalPoints}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
 
-            <Card className="border-2 border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg">
-              <CardContent className="p-6">
-                <ProfileForm />
-              </CardContent>
-            </Card>
+            <Tabs defaultValue="profile" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 bg-purple-900/20">
+                <TabsTrigger value="profile">Profile Details</TabsTrigger>
+                <TabsTrigger value="social">Social Links</TabsTrigger>
+              </TabsList>
+              <TabsContent value="profile">
+                <Card className="border-2 border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg">
+                  <CardContent className="p-6">
+                    <ProfileForm />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value="social">
+                <Card className="border-2 border-purple-200/30 dark:border-purple-700/30 shadow-lg bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Link className="w-5 h-5" />
+                      Social Links
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid gap-4">
+                    {Object.entries(profileStats?.socialLinks || {}).map(([platform, url]) => (
+                      <div key={platform} className="flex items-center justify-between p-2 rounded-lg bg-purple-500/10">
+                        <span className="capitalize text-purple-100">{platform}</span>
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyan-300 hover:text-cyan-400 transition-colors"
+                        >
+                          {url}
+                        </a>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </>
         ) : (
           <PublicProfileView />
