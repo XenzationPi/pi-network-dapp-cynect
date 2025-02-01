@@ -42,19 +42,35 @@ export const FeatureGrid = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+    <div 
+      className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4"
+      role="region"
+      aria-label="Platform features"
+    >
       {features.map((feature, index) => (
         <Card 
           key={feature.title}
           className="border-purple-200/30 dark:border-purple-700/30 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/10 dark:bg-purple-900/10 backdrop-blur-lg animate-fade-in group overflow-hidden relative"
           style={{ animationDelay: `${index * 100}ms` }}
+          tabIndex={0}
+          role="article"
+          aria-labelledby={`feature-title-${index}`}
         >
-          <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+          <div 
+            className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+            aria-hidden="true"
+          />
           <CardHeader className="space-y-4">
-            <div className="mx-auto bg-purple-100/20 dark:bg-purple-800/20 p-3 rounded-full w-fit group-hover:scale-110 transition-transform duration-300">
+            <div 
+              className="mx-auto bg-purple-100/20 dark:bg-purple-800/20 p-3 rounded-full w-fit group-hover:scale-110 transition-transform duration-300"
+              aria-hidden="true"
+            >
               <feature.icon className="w-8 h-8 text-cyan-400 dark:text-cyan-300" />
             </div>
-            <CardTitle className="text-xl text-center bg-gradient-to-r from-purple-300 via-white to-cyan-300 bg-clip-text text-transparent">
+            <CardTitle 
+              id={`feature-title-${index}`}
+              className="text-xl text-center bg-gradient-to-r from-purple-300 via-white to-cyan-300 bg-clip-text text-transparent"
+            >
               {feature.title}
             </CardTitle>
             <CardDescription className="text-gray-400 dark:text-gray-300 text-center">
