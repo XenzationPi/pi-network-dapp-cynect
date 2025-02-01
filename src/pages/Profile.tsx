@@ -10,11 +10,17 @@ import { UserCircle2, Trophy, Calendar, Activity, Link, Edit2 } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+interface SocialLinks {
+  github?: string;
+  twitter?: string;
+  [key: string]: string | undefined;
+}
+
 interface ProfileStats {
   joinedDate: string;
   achievementsCount: number;
   totalPoints: number;
-  socialLinks?: { [key: string]: string };
+  socialLinks?: SocialLinks;
   bio?: string;
 }
 
@@ -54,7 +60,7 @@ const Profile = () => {
             joinedDate: rewards?.last_action_at ? new Date(rewards.last_action_at).toLocaleDateString() : 'N/A',
             achievementsCount: achievements?.length || 0,
             totalPoints: rewards?.points || 0,
-            socialLinks: profile?.social_links || {},
+            socialLinks: profile?.social_links as SocialLinks || {},
             bio: profile?.bio || ''
           });
         } else {
@@ -171,17 +177,19 @@ const Profile = () => {
                   </CardHeader>
                   <CardContent className="grid gap-4">
                     {Object.entries(profileStats?.socialLinks || {}).map(([platform, url]) => (
-                      <div key={platform} className="flex items-center justify-between p-2 rounded-lg bg-purple-500/10">
-                        <span className="capitalize text-purple-100">{platform}</span>
-                        <a
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-cyan-300 hover:text-cyan-400 transition-colors"
-                        >
-                          {url}
-                        </a>
-                      </div>
+                      url && (
+                        <div key={platform} className="flex items-center justify-between p-2 rounded-lg bg-purple-500/10">
+                          <span className="capitalize text-purple-100">{platform}</span>
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-cyan-300 hover:text-cyan-400 transition-colors"
+                          >
+                            {url}
+                          </a>
+                        </div>
+                      )
                     ))}
                   </CardContent>
                 </Card>
