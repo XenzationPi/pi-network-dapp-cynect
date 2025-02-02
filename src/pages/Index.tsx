@@ -59,24 +59,15 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
-      <div 
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: "url('/lovable-uploads/984bf8a9-bab6-4a9a-ac11-46fa9e1407bf.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          filter: "contrast(120%) brightness(150%)",
-        }}
-      />
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-black to-cyan-900">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
+      </div>
       
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-cyan-900/30 animate-gradient" />
-      
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-cyan-500/20 rounded-full filter blur-3xl animate-pulse delay-1000" />
-      </div>
       
       <div className="relative z-10">
         <Menu />
@@ -89,7 +80,7 @@ const Index = () => {
               <Sparkles className="absolute -top-4 -right-8 h-8 w-8 text-purple-300 animate-pulse" />
             </div>
             
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed backdrop-blur-sm bg-white/5 p-6 rounded-lg border border-white/10 shadow-2xl animate-slide-in">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed glass-morphism p-6 rounded-lg animate-slide-in">
               Your bridge to Pi Network's AI-powered content creation. Connect your Pi wallet to start earning tokens and creating amazing content.
             </p>
 
@@ -119,17 +110,17 @@ const Index = () => {
                 ].map((feature, index) => (
                   <div 
                     key={feature.title}
-                    className="backdrop-blur-sm bg-white/5 p-6 rounded-lg border border-white/10 shadow-2xl transform hover:scale-105 transition-all duration-300 animate-fade-in"
+                    className="glass-morphism p-6 rounded-lg transform hover:scale-105 transition-all duration-300 animate-fade-in hover:bg-white/10"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="flex flex-col items-center space-y-4">
-                      <div className="p-3 rounded-full bg-purple-500/20">
+                      <div className="p-3 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20">
                         <feature.icon className="h-8 w-8 text-purple-300" />
                       </div>
-                      <h3 className="text-xl font-semibold text-purple-300">
+                      <h3 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-cyan-300">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-400 text-center">
+                      <p className="text-gray-300 text-center">
                         {feature.description}
                       </p>
                     </div>
