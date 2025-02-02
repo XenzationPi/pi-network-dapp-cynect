@@ -75,7 +75,7 @@ const Index = () => {
           <div className="text-center mb-16 space-y-6 animate-fade-in">
             <div className="relative inline-block">
               <h1 className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-white to-cyan-300 mb-6 filter drop-shadow-lg animate-scale-up">
-                Cynect
+                PANGEAI
               </h1>
               <Sparkles className="absolute -top-4 -right-8 h-8 w-8 text-purple-300 animate-pulse" />
             </div>

@@ -22,7 +22,7 @@ export const AuthenticatedView = ({ userRewards }: AuthenticatedViewProps) => (
           <div className="flex items-center justify-center space-x-2 mt-4 animate-scale-up">
             <Coins className="w-5 h-5 text-cyan-400 dark:text-cyan-300 animate-pulse" />
             <span className="text-lg font-semibold bg-gradient-to-r from-purple-300 to-cyan-300 bg-clip-text text-transparent">
-              {userRewards.points} CYN
+              {userRewards.points} PGI
             </span>
           </div>
         )}
