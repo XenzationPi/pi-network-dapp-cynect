@@ -12,7 +12,7 @@ export const FeatureGrid = () => {
     {
       icon: Coins,
       title: "Token Economy",
-      description: "Earn CYN tokens through daily activities, community engagement, and content creation",
+      description: "Earn PGI tokens through daily activities, community engagement, and content creation",
       gradient: "from-cyan-500 to-blue-500"
     },
     {

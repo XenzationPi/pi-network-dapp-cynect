@@ -48,8 +48,7 @@ export const HeroSection = () => {
             className="text-4xl md:text-7xl font-bold bg-gradient-to-r from-purple-300 via-white to-cyan-300 bg-clip-text text-transparent animate-scale-up relative"
             tabIndex={0}
           >
-            Build the Future of 
-            <span className="block mt-2">Decentralized Apps</span>
+            PANGEAI
           </h1>
         </div>
 
@@ -58,7 +57,7 @@ export const HeroSection = () => {
           className="text-lg md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-fade-in delay-150"
           tabIndex={0}
         >
-          Join Cynect to shape the future of decentralized content creation. 
+          Join PANGEAI to shape the future of decentralized content creation. 
           Earn tokens, unlock achievements, and be part of the next generation 
           of Pi Network pioneers.
         </p>
