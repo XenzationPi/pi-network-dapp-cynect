@@ -1,8 +1,8 @@
-# Cynect - Your Bridge to Pi Network's AI-Powered Content Creation
+# PANGEAI - Your Bridge to Pi Network's AI-Powered Content Creation
 
 ## Overview
 
-Cynect is a revolutionary platform that connects Pi Network users with AI-powered content creation tools. Our platform combines the power of blockchain technology with artificial intelligence to create a unique ecosystem where users can earn tokens through active participation, create engaging content, and be part of a thriving community.
+PANGEAI is a revolutionary platform that connects Pi Network users with AI-powered content creation tools. Our platform combines the power of blockchain technology with artificial intelligence to create a unique ecosystem where users can earn tokens through active participation, create engaging content, and be part of a thriving community.
 
 ## Token Economy & Rewards 🌟
 
@@ -17,7 +17,7 @@ Cynect is a revolutionary platform that connects Pi Network users with AI-powere
 - Receive rewards for high-quality contributions
 
 ### Token Utility
-- Use CYN tokens for AI-powered content generation
+- Use PGI tokens for AI-powered content generation
 - Access premium features and templates
 - Future capability to exchange tokens for Pi coins
 
@@ -54,7 +54,7 @@ Built with modern web technologies:
 
 ## Getting Started
 
-1. Visit [Cynect](https://lovable.dev/projects/4f952fa6-2923-43c7-ac8a-17e6475cafeb)
+1. Visit [PANGEAI](https://lovable.dev/projects/4f952fa6-2923-43c7-ac8a-17e6475cafeb)
 2. Connect your Pi Wallet
 3. Join the waitlist to secure your early access
 4. Start earning tokens through daily engagement
